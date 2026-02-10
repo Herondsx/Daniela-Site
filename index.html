@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DANIELA'S_BREACH</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Fundo com logs de "hack" -->
+    <div id="terminal-bg"></div>
+
+    <div class="container">
+        <h1 data-text="DANIELA'S_BREACH">DANIELA'S_BREACH</h1>
+        
+        <div class="timer-wrapper">
+            <div class="time-segment">
+                <span id="days" class="number">00</span>
+                <span class="label">DIAS</span>
+            </div>
+            <div class="time-segment">
+                <span class="number" style="color: var(--pink)">:</span>
+            </div>
+            <div class="time-segment">
+                <span id="hours" class="number">00</span>
+                <span class="label">HORAS</span>
+            </div>
+            <div class="time-segment">
+                <span class="number" style="color: var(--pink)">:</span>
+            </div>
+            <div class="time-segment">
+                <span id="minutes" class="number">00</span>
+                <span class="label">MIN</span>
+            </div>
+            <div class="time-segment">
+                <span class="number" style="color: var(--pink)">:</span>
+            </div>
+            <div class="time-segment">
+                <span id="seconds" class="number" style="color: var(--pink);">00</span>
+                <span class="label">SEG</span>
+            </div>
+        </div>
+
+        <!-- Área onde o enigma aparece -->
+        <div id="message-box" class="message-box">
+            <span id="typewriter">INITIALIZING...</span><span class="cursor">_</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
