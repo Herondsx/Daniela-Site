@@ -181,10 +181,46 @@ h1::after {
     100% { opacity: 1; }
 }
 
-/* Mídia para mobile */
+/* Versão responsiva para mobile */
 @media (max-width: 600px) {
-    .number { font-size: 3.5rem; }
-    h1 { font-size: 1.8rem; }
-    .container { padding: 20px; width: 95%; }
-    .timer-wrapper { gap: 10px; }
+    body {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        padding: 20px 10px;
+    }
+
+    #terminal-bg {
+        padding: 10px;
+        font-size: 10px;
+    }
+
+    .container {
+        padding: 20px 15px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+    }
+
+    .timer-wrapper {
+        gap: 8px;
+    }
+
+    .number {
+        font-size: 3rem;
+    }
+
+    .label {
+        font-size: 1rem;
+    }
+
+    .message-box {
+        font-size: 1rem;
+        word-break: break-word;
+    }
 }
