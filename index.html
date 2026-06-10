@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>O Enigma de Daniela</title>
+  <meta name="description" content="Um enigma gótico feito com amor." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='13' font-size='13'>🖤</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="app" class="vignette">
+
+    <!-- ===================== JOGO ===================== -->
+    <canvas id="game"></canvas>
+
+    <!-- ===================== HUD ===================== -->
+    <div id="hud" class="hidden">
+      <div class="hud-clues">PÁGINAS <span class="pages" id="clueCount">0 / 4</span></div>
+      <div class="hud-right">
+        <div class="icon-btn" id="muteBtn" title="Som">🔊</div>
+        <div class="icon-btn" id="helpBtn" title="Ajuda">?</div>
+      </div>
+    </div>
+
+    <!-- ===================== DIÁLOGO ===================== -->
+    <div id="dialog" class="hidden">
+      <div class="speaker" id="dlgSpeaker">?</div>
+      <div class="text" id="dlgText"></div>
+      <div class="cont" id="dlgCont">▼ continuar (E)</div>
+    </div>
+
+    <!-- ===================== CONTROLES TOUCH ===================== -->
+    <div id="touch">
+      <div class="dpad">
+        <div class="pad up">▲</div>
+        <div class="pad down">▼</div>
+        <div class="pad left">◀</div>
+        <div class="pad right">▶</div>
+      </div>
+      <button class="abtn">E</button>
+    </div>
+
+    <!-- ===================== TELA INICIAL ===================== -->
+    <div id="startScreen" class="screen">
+      <h1 class="title">O Enigma de <span class="accent">Daniela</span></h1>
+      <p class="subtitle">Uma mansão esquecida. Quatro páginas perdidas. Um portão selado.
+        Só um coração corajoso descobre o que há do outro lado...</p>
+
+      <div class="label-soft">escolha a sua heroína</div>
+      <div class="charpick">
+        <div class="char-card" data-hair="castanho">
+          <canvas width="48" height="48"></canvas>
+          <div class="cname">DANIELA</div>
+          <div class="chair">Castanho claro</div>
+        </div>
+        <div class="char-card" data-hair="ruivo">
+          <canvas width="48" height="48"></canvas>
+          <div class="cname">DANIELA</div>
+          <div class="chair">Ruiva 🔥</div>
+        </div>
+      </div>
+
+      <button class="btn" id="startBtn">Entrar na mansão</button>
+      <div class="hint-controls">
+        Mover: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> ou <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd>
+        &nbsp;•&nbsp; Interagir: <kbd>E</kbd> &nbsp;•&nbsp; Ajuda: <kbd>Esc</kbd>
+      </div>
+    </div>
+
+    <!-- ===================== ENIGMA (teclado da porta) ===================== -->
+    <div id="lockModal" class="modal hidden">
+      <div class="panel">
+        <span class="close-x" id="lockClose">✕</span>
+        <h2>Portão Selado</h2>
+        <p class="riddle">“Quatro páginas, quatro algarismos.<br>Digite-os na ordem em que foram escritos
+          e o que está trancado se abrirá.”</p>
+        <div class="code-display" id="codeDisplay">• • • •</div>
+        <div class="keypad" id="keypad">
+          <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
+          <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
+          <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
+          <button class="del" data-k="del">⌫</button>
+          <button data-k="0">0</button>
+          <button class="ok" data-k="ok">✔</button>
+        </div>
+        <div class="clue-recap" id="clueRecap"></div>
+      </div>
+    </div>
+
+    <!-- ===================== AJUDA ===================== -->
+    <div id="helpModal" class="modal hidden">
+      <div class="panel">
+        <span class="close-x" id="helpClose">✕</span>
+        <h2>Como jogar</h2>
+        <p class="riddle" style="font-style:normal;color:#e9e2d4;text-align:left;line-height:1.7">
+          • <b>Andar:</b> setas do teclado ou <b>W A S D</b> (no celular, use o direcional).<br>
+          • <b>Interagir / continuar:</b> tecla <b>E</b> (ou o botão <b>E</b> no celular).<br>
+          • <b>Objetivo:</b> explore a mansão e recolha as <b>4 páginas perdidas</b>.<br>
+          • Cada página guarda um <b>algarismo</b>. Junte-os na ordem para abrir o <b>portão selado</b>.<br>
+          • No caminho você encontrará companheiros especiais... 🐈‍⬛🐕<br>
+          • Algo muito precioso te espera no fim. 🖤
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================== CUTSCENE FINAL ===================== -->
+    <div id="ending" class="hidden">
+      <div class="big">Você venceu o enigma</div>
+      <p>Tudo isso foi feito por uma pessoa que te ama muito.<br>
+         A sua recompensa não é um tesouro qualquer... é a nossa história.</p>
+      <button class="btn" id="rewardBtn">Abrir a recompensa ❤</button>
+    </div>
+
+    <!-- fade de transição -->
+    <div id="fader"></div>
+  </div>
+
+  <script src="js/audio.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
