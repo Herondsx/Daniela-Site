@@ -633,7 +633,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateHud();
     setTimeout(() => {
       Dialog.show('?', [
-        "Você desperta numa mansão que não reconhece. O ar é frio e cheira a rosas murchas.",
+        "Você desperta na Mansão do Riacho Grande — um lugar que não reconhece. O ar é frio e cheira a rosas murchas.",
         "Uma voz sussurra do escuro: “encontre as 4 páginas perdidas... e o portão selado revelará o que te trouxe até aqui.”",
         "(Use as SETAS ou W A S D para andar. Chegue perto das coisas e aperte E para interagir.)"
       ], null, 'narr');

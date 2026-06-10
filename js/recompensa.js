@@ -11,31 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const el = document.getElementById('dayCounter');
   if (el) el.innerHTML = `<b>2 anos e 3 meses</b> &middot; ${days.toLocaleString('pt-BR')} dias caminhando ao seu lado`;
 
-  // ---------------- Galeria de fotos ----------------
-  const caps = [
-    "O nosso 'pra sempre' começou com um sorriso bobo.",
-    "Tem gente que combina. E tem a gente.",
-    "Do seu lado, até o dia mais comum vira história.",
-    "Eu reconheceria esse seu olhar em qualquer escuridão.",
-    "Dois corações, uma bagunça linda.",
-    "Você é o meu lugar favorito no mundo.",
-    "Rir com você é a minha parte preferida do dia.",
-    "Se eu pudesse, repetia cada um desses momentos.",
-    "Com você, o tempo passa rápido demais.",
-    "A vida ao seu lado tem mais cor.",
-    "Você é linda até nas fotos tortas (principalmente nelas).",
-    "Meu caos preferido — e a minha calmaria também.",
-    "Onde você está é onde eu quero estar.",
-    "A gente se escolhe todo dia. E eu escolheria de novo.",
-    "Passear com você é a minha aventura favorita.",
-    "Você transforma o comum em mágico.",
-    "Guardo cada detalhe seu como um tesouro.",
-    "O mundo fica mais bonito quando você sorri.",
-    "Obrigado por ser minha parceira de absolutamente tudo.",
-    "Cada careta sua é uma obra de arte.",
-    "Eu te amo no escuro e na luz — em todos os lugares."
-  ];
-
+  // ---------------- Galeria de fotos (sem legendas) ----------------
   const gallery = document.getElementById('gallery');
   for (let i = 1; i <= 21; i++) {
     const card = document.createElement('div');
@@ -44,30 +20,22 @@ document.addEventListener('DOMContentLoaded', () => {
     img.loading = 'lazy';
     img.alt = 'Nós dois';
     img.src = encodeURI('Assets/' + i + '.jpeg');
-    const cap = document.createElement('div');
-    cap.className = 'cap';
-    cap.textContent = caps[(i - 1) % caps.length];
     card.appendChild(img);
-    card.appendChild(cap);
     gallery.appendChild(card);
   }
 
   // ---------------- Vídeos (todos rodando ao mesmo tempo) ----------------
   const vids = [
-    { file: 'Video-StarBucks.mp4',     label: 'Nosso café',        emoji: '☕' },
-    { file: 'Video-Fofinha.mp4',       label: 'Fofura registrada', emoji: '🖤' },
-    { file: 'Video-Riacho-praia.mp4',  label: 'Águas e nós',       emoji: '🌊' },
-    { file: 'Video-Cavalo.mp4',        label: 'Aventura a dois',   emoji: '🐴' },
-    { file: 'Video-scs-cafe.mp4',      label: 'Tarde preguiçosa',  emoji: '🍰' },
-    { file: 'Video-cabeçao.mp4',       label: 'Risada garantida',  emoji: '😆' },
+    'Video-StarBucks.mp4', 'Video-Fofinha.mp4', 'Video-Riacho-praia.mp4',
+    'Video-Cavalo.mp4', 'Video-scs-cafe.mp4', 'Video-cabeçao.mp4'
   ];
   const vgrid = document.getElementById('vgrid');
   const videoEls = [];
-  vids.forEach(v => {
+  vids.forEach(file => {
     const cell = document.createElement('div');
     cell.className = 'vcell reveal';
     const video = document.createElement('video');
-    video.src = encodeURI('Assets/' + v.file);
+    video.src = encodeURI('Assets/' + file);
     video.muted = true;
     video.loop = true;
     video.autoplay = true;
@@ -75,14 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
     video.setAttribute('playsinline', '');
     video.setAttribute('webkit-playsinline', '');
     video.preload = 'metadata';
-    const label = document.createElement('div');
-    label.className = 'vlabel';
-    label.textContent = v.label;
     const spk = document.createElement('div');
     spk.className = 'vspeaker';
     spk.textContent = '🔇';
     cell.appendChild(video);
-    cell.appendChild(label);
     cell.appendChild(spk);
     vgrid.appendChild(cell);
     videoEls.push({ cell, video, spk });
@@ -183,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!AC) return;
     if (!actx) { actx = new AC(); musicGain = actx.createGain(); musicGain.gain.value = 0.0; musicGain.connect(actx.destination); }
     if (actx.state === 'suspended') actx.resume();
+    if (musicOn) return;
     musicGain.gain.cancelScheduledValues(actx.currentTime);
     musicGain.gain.linearRampToValueAtTime(0.28, actx.currentTime + 1.2);
     musicOn = true;
@@ -229,6 +194,16 @@ document.addEventListener('DOMContentLoaded', () => {
     o.start(when); o.stop(when + dur + 0.05);
   }
   musicBtn.addEventListener('click', () => { if (musicOn) stopMusic(); else startMusic(); });
+
+  // a musiquinha começa sozinha no primeiro gesto (o navegador bloqueia áudio antes disso)
+  const musicEvents = ['scroll', 'wheel', 'keydown', 'touchmove', 'pointerdown'];
+  function autoMusic(e) {
+    // se o primeiro toque for justamente pra ativar o som de um vídeo, não atravessa com a música
+    if (e && e.type === 'pointerdown' && e.target.closest && e.target.closest('.vcell')) return;
+    startMusic();
+    musicEvents.forEach(ev => window.removeEventListener(ev, autoMusic));
+  }
+  musicEvents.forEach(ev => window.addEventListener(ev, autoMusic, { passive: true }));
 
   // ---------------- Botão de descida suave do scrollcue ----------------
   const cue = document.querySelector('.scrollcue');
